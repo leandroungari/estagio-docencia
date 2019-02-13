@@ -1,0 +1,316 @@
+\section{Outros Exemplos}
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\subsection*{}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\centering
+\Huge Outros Exemplos
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\subsection{Pagamento de Compras}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Exemplo I}
+\begin{columns}
+\begin{column}{.5\textwidth}
+\justifying
+\quad Uma pequena empresa aceitava inicialmente somente pagamentos em dinheiro, desse modo, seu sistema de caixa fora projetado para tal propósito.
+\end{column}
+\begin{column}{.5\textwidth}
+\begin{tikzpicture}
+\node[inner sep=0pt] (cashier) at (-2,2)
+    {\href{https://www.flaticon.com/authors/freepik}
+		{\includegraphics[width=.2\columnwidth]{images/cashier.png}}
+	};
+\node[inner sep=0pt] (cash) at (0,0)
+    {\href{https://www.flaticon.com/authors/dinosoftlabs}
+		{\includegraphics[width=.2\columnwidth]{images/cash.png}}
+	};
+\node[inner sep=0pt] (check) at (2,-2)
+    {\href{https://www.flaticon.com/authors/maxim-basinski}
+		{\includegraphics[width=.2\columnwidth]{images/checked.png}}
+	};
+\draw[->,thick] 
+	(cashier.south east) -- (cash.north west)
+    node[midway,fill=white] {Pagamento};
+\draw[->,thick] 
+	(cash.south east) -- (check.north west)
+    node[midway,fill=white] {Aprovação};
+\end{tikzpicture}
+\end{column}
+\end{columns}
+% paypal -> https://www.flaticon.com/authors/roundicons
+% credit card -> https://www.flaticon.com/authors/smashicons
+% money -> https://www.flaticon.com/authors/dinosoftlabs
+%check -> https://www.flaticon.com/authors/maxim-basinski
+%cashier -> https://www.flaticon.com/authors/freepik
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Representação}
+\resizebox{\textwidth}{!}{
+\begin{tikzpicture}
+\umlclass[x=0,y=0]{Purchase}{
+	- value: double\\
+	- closed: boolean
+}{
+	+ finalize(): boolean\\
+	+ setPayment(Purchase p): void\\
+	+ getTotal(): double
+}
+\umlclass[x=8,y=0]{CashPayment}{
+	- value: double\\
+	- isApproved: boolean
+}{
+	+ execute() : void\\
+	+ isApproved() : boolean
+}
+\umlunicompo[geometry=-|-,mult1=1,mult2=1,pos1=0.2,pos2=2.8]
+{Purchase}{CashPayment}
+\end{tikzpicture}
+}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[fragile]
+\frametitle{Implementação}
+\begin{lstlisting}
+Purchase purchase = new Purchase();
+...
+CashPayment cash = new CashPayment(purchase.getTotal());
+
+purchase.setPayment(cash);
+purchase.finalize();
+\end{lstlisting}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[fragile]
+\frametitle{Implementação}
+\begin{lstlisting}
+class Purchase {
+  ...
+
+  public boolean finalize() {
+    ...
+    //type CashPayment
+    this.payment.execute();
+  }
+}
+\end{lstlisting}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Exemplo I}
+\quad Com o crescimento da empresa e também solicitação dos usuários, novas formas de pagamento devem ser adicionadas.
+\begin{figure}
+  \centering
+  \subfloat{
+  	\href{https://www.flaticon.com/authors/dinosoftlabs}
+  	{\includegraphics[height=1.5cm,width=1.5cm]{images/cash.png}}
+  }\hspace{1cm}
+  \subfloat{
+  	\href{https://www.flaticon.com/authors/smashicons}
+  	{\includegraphics[height=1.5cm,width=1.5cm]{images/credit-card.png}}
+  }\hspace{1cm}
+  \subfloat{
+  	\href{https://www.flaticon.com/authors/roundicons}
+  	{\includegraphics[height=1.5cm,width=1.5cm]{images/paypal.png}}
+  }
+\label{fig:1}
+\end{figure}
+\quad Qual é a melhor estratégia a ser desenvolvida na implementação do sistema?
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Opção I}
+\centering
+\begin{tikzpicture}
+\node[inner sep=0pt] (cashier) at (-4,0)
+    {\href{https://www.flaticon.com/authors/freepik}
+		{\includegraphics[width=.12\textwidth]{images/cashier.png}}
+	};
+\node[inner sep=0pt] (cash) at (0,0)
+    {\href{https://www.flaticon.com/authors/dinosoftlabs}
+		{\includegraphics[width=.12\textwidth]{images/cash.png}}
+	};
+\node[inner sep=0pt] (check) at (4,0)
+    {\href{https://www.flaticon.com/authors/maxim-basinski}
+		{\includegraphics[width=.12\textwidth]{images/checked.png}}
+	};
+\draw[->,thick] 
+	(cashier.east) -- (cash.west)
+    node[midway,fill=white] [below] {Pagamento};
+\draw[->,thick] 
+	(cash.east) -- (check.west)
+    node[midway,fill=white] [below] {Aprovação};
+\end{tikzpicture}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Opção I}
+\centering
+\begin{tikzpicture}
+\node[inner sep=0pt] (cashier0) at (-4,1)
+    {\href{https://www.flaticon.com/authors/freepik}
+		{\includegraphics[width=.1\textwidth]{images/cashier.png}}
+	};
+\node[inner sep=0pt] (cash0) at (0,1)
+    {\href{https://www.flaticon.com/authors/dinosoftlabs}
+		{\includegraphics[width=.1\textwidth]{images/cash.png}}
+	};
+\node[inner sep=0pt] (check0) at (4,1)
+    {\href{https://www.flaticon.com/authors/maxim-basinski}
+		{\includegraphics[width=.1\textwidth]{images/checked.png}}
+	};
+\draw[->,thick] 
+	(cashier0.east) -- (cash0.west)
+    node[midway,fill=white] [below] {Pagamento};
+\draw[->,thick] 
+	(cash0.east) -- (check0.west)
+    node[midway,fill=white] [below] {Aprovação};
+%%%%%%%%%%%%%%%
+\node[inner sep=0pt] (cashier1) at (-4,-1)
+    {\href{https://www.flaticon.com/authors/freepik}
+		{\includegraphics[width=.1\textwidth]{images/cashier.png}}
+	};
+\node[inner sep=0pt] (cash1) at (0,-1)
+    {\href{https://www.flaticon.com/authors/smashicons}
+		{\includegraphics[width=.1\textwidth]{images/credit-card.png}}
+	};
+\node[inner sep=0pt] (check1) at (4,-1)
+    {\href{https://www.flaticon.com/authors/maxim-basinski}
+		{\includegraphics[width=.1\textwidth]{images/checked.png}}
+	};
+\draw[->,thick] 
+	(cashier1.east) -- (cash1.west)
+    node[midway,fill=white] [below] {Pagamento};
+\draw[->,thick] 
+	(cash1.east) -- (check1.west)
+    node[midway,fill=white] [below] {Aprovação};
+\end{tikzpicture}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Opção I}
+\centering
+\begin{tikzpicture}
+\node[inner sep=0pt] (cashier0) at (-4,2)
+    {\href{https://www.flaticon.com/authors/freepik}
+		{\includegraphics[width=.08\textwidth]{images/cashier.png}}
+	};
+\node[inner sep=0pt] (cash0) at (0,2)
+    {\href{https://www.flaticon.com/authors/dinosoftlabs}
+		{\includegraphics[width=.08\textwidth]{images/cash.png}}
+	};
+\node[inner sep=0pt] (check0) at (4,2)
+    {\href{https://www.flaticon.com/authors/maxim-basinski}
+		{\includegraphics[width=.08\textwidth]{images/checked.png}}
+	};
+\draw[->,thick] 
+	(cashier0.east) -- (cash0.west)
+    node[midway,fill=white] [below] {Pagamento};
+\draw[->,thick] 
+	(cash0.east) -- (check0.west)
+    node[midway,fill=white] [below] {Aprovação};
+%%%%%%%%%%%%%%%
+\node[inner sep=0pt] (cashier1) at (-4,0)
+    {\href{https://www.flaticon.com/authors/freepik}
+		{\includegraphics[width=.08\textwidth]{images/cashier.png}}
+	};
+\node[inner sep=0pt] (cash1) at (0,0)
+    {\href{https://www.flaticon.com/authors/smashicons}
+		{\includegraphics[width=.08\textwidth]{images/credit-card.png}}
+	};
+\node[inner sep=0pt] (check1) at (4,0)
+    {\href{https://www.flaticon.com/authors/maxim-basinski}
+		{\includegraphics[width=.08\textwidth]{images/checked.png}}
+	};
+\draw[->,thick] 
+	(cashier1.east) -- (cash1.west)
+    node[midway,fill=white] [below] {Pagamento};
+\draw[->,thick] 
+	(cash1.east) -- (check1.west)
+    node[midway,fill=white] [below] {Aprovação};
+%%%%%%%%%%%%%%%
+\node[inner sep=0pt] (cashier2) at (-4,-2)
+    {\href{https://www.flaticon.com/authors/freepik}
+		{\includegraphics[width=.08\textwidth]{images/cashier.png}}
+	};
+\node[inner sep=0pt] (cash2) at (0,-2)
+    {\href{https://www.flaticon.com/authors/roundicons}
+		{\includegraphics[width=.08\textwidth]{images/paypal.png}}
+	};
+\node[inner sep=0pt] (check2) at (4,-2)
+    {\href{https://www.flaticon.com/authors/maxim-basinski}
+		{\includegraphics[width=.08\textwidth]{images/checked.png}}
+	};
+\draw[->,thick] 
+	(cashier2.east) -- (cash2.west)
+    node[midway,fill=white] [below] {Pagamento};
+\draw[->,thick] 
+	(cash2.east) -- (check2.west)
+    node[midway,fill=white] [below] {Aprovação};
+\end{tikzpicture}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Opção II}
+\centering
+\begin{tikzpicture}
+\node[inner sep=0pt] (cashier0) at (-4,0)
+    {
+    	\href{https://www.flaticon.com/authors/freepik}
+		{\includegraphics[width=.08\textwidth]{images/cashier.png}}
+	};
+\node[inner sep=0pt] (cash0) at (0,2)
+    {
+    	\href{https://www.flaticon.com/authors/dinosoftlabs}
+		{\includegraphics[width=.08\textwidth]{images/cash.png}}
+	};
+\node[inner sep=0pt] (cash1) at (0,0)
+    {
+    	\href{https://www.flaticon.com/authors/smashicons}
+		{\includegraphics[width=.08\textwidth]{images/credit-card.png}}
+	};
+\node[inner sep=0pt] (cash2) at (0,-2)
+    {\href{https://www.flaticon.com/authors/roundicons}
+		{\includegraphics[width=.08\textwidth]{images/paypal.png}}
+	};
+\node[inner sep=0pt] (check0) at (4,0)
+    {
+    	\href{https://www.flaticon.com/authors/maxim-basinski}
+		{\includegraphics[width=.08\textwidth]{images/checked.png}}
+	};
+\draw[->,thick] 
+	(cashier0.north east) -- (cash0.south west)
+    node[midway,fill=white] {Pagamento};
+\draw[->,thick] 
+	(cash0.south east) -- (check0.north west)
+    node[midway,fill=white] {Aprovação};
+\draw[->,thick] 
+	(cashier0.east) -- (cash1.west)
+    node[midway,fill=white] {Pagamento};
+\draw[->,thick] 
+	(cash1.east) -- (check0.west)
+    node[midway,fill=white] {Aprovação};
+\draw[->,thick] 
+	(cashier0.south east) -- (cash2.north west)
+    node[midway,fill=white] {Pagamento};
+\draw[->,thick] 
+	(cash2.north east) -- (check0.south west)
+    node[midway,fill=white] {Aprovação};
+\end{tikzpicture}
+\end{frame}

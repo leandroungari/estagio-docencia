@@ -1,0 +1,176 @@
+\section{Tipos de Polimorfismo}
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\subsection*{}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Categorias}
+\justifying
+\quad O Polimorfismo pode ser aplicado de diversos modos, conforme a necessidade de cada implementação~\cite{sintes2002aprenda}. 
+A seguir são apresentados quatros principais categorias dessa abordagem:
+
+\begin{itemize}
+	\item Polimorfismo de Inclusão
+	\item Polimorfismo Paramétrico
+	\item Sobreposição
+	\item Sobrecarga
+\end{itemize}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\subsection{Polimorfismo de Inclusão}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Definição}
+\justifying
+\begin{block}{Conceito}
+\qquad O polimorfismo de inclusão, também conhecido como polimorfismo puro, permite que você trate objetos relacionados genericamente.
+\end{block}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Exemplo}
+\centering
+\resizebox{.8\textwidth}{!}{
+\begin{tikzpicture}
+\umlclass[x=0,y=0]{Vehicle}{...}{...}
+\umlclass[x=-3,y=-3]{Motorcycle}{}{
+	+ accelerate()
+}
+\umlclass[x=0,y=-3]{Car}{}{
+	+ accelerate()
+}
+\umlclass[x=3,y=-3]{Truck}{}{
+	+ accelerate()
+}
+\umlimpl{Motorcycle}{Vehicle}
+\umlimpl{Car}{Vehicle}
+\umlimpl{Truck}{Vehicle}
+\end{tikzpicture}
+}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[fragile]
+\frametitle{Exemplo}
+\justifying
+\begin{lstlisting}
+public void accelerateVehicle(Motorcycle obj){
+  obj.accelerate();
+}
+
+public void accelerateVehicle(Car obj){
+  obj.accelerate();
+}
+
+public void accelerateVehicle(Truck obj){
+  obj.accelerate();
+}
+\end{lstlisting}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[fragile]
+\frametitle{Exemplo}
+\justifying
+\quad Todos os métodos anteriores são equivalentes a esse:
+\\~\\
+\begin{lstlisting}
+public void accelerateVehicle(Vehicle obj){
+  obj.accelerate();
+}
+\end{lstlisting}
+\end{frame}
+
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\subsection{Polimorfismo Paramétrico}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Definição}
+\justifying
+\begin{block}{Conceito}
+\qquad O polimorfismo paramétrico que você crie métodos e tipos genéricos. 
+Essa categoria pode ser aplicada em tipos e métodos, na primeira os tipos de parâmetros e retornos podem ser generalizados, enquanto no segundo, as referências de tipos dos métodos são omitidos até o momento da execução.
+\end{block}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[fragile]
+\frametitle{Exemplo}
+\justifying
+\begin{lstlisting}
+//Polimorfismo parametrico de Tipo
+public class Queue<T> {
+	
+  void enqueue(T element) { ... }
+
+  T dequeue() { ... }
+
+  boolean isEmpty() { ... }
+
+}
+\end{lstlisting}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[fragile]
+\frametitle{Exemplo}
+\justifying
+\begin{lstlisting}
+//Metodos de adicao de elementos
+int add(int a, int b) { ... }
+double add(double a, double b) { ... }
+int[][] add(int[][] a, int[][] b) { ... }
+
+//Polimorfismo parametrico de Metodo
+T add(T a, T b) { ... }
+\end{lstlisting}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\subsection{Sobreposição}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Definição}
+\justifying
+\begin{block}{Conceito}
+\qquad O polimorfismo de sobreposição é um tipo importante, no qual o comportamento em uma hierarquia é sobreposto por um comportamento mais específico
+\end{block}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Exemplo}
+\justifying
+
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\subsection{Sobrecarga}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Definição}
+\justifying
+\begin{block}{Conceito}
+\qquad O p
+\end{block}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Exemplo}
+\justifying
+
+\end{frame}
