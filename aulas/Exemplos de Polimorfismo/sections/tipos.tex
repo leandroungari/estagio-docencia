@@ -149,10 +149,39 @@ T add(T a, T b) { ... }
 \end{frame}
 
 %----------------------------------------------------------------------------------------
-\begin{frame}
+\begin{frame}[fragile]
 \frametitle{Exemplo}
 \justifying
+\quad Uma classe~\textbf{Geometric} é definida, da qual derivam outras duas classes~\textbf{Square} e~\textbf{Triangle}.
+\begin{lstlisting}
+public abstract class Geometric {
+	
+  public abstract double area();
+}
+\end{lstlisting}
+\end{frame}
 
+%----------------------------------------------------------------------------------------
+\begin{frame}[fragile]
+\frametitle{Exemplo}
+\justifying
+\begin{lstlisting}
+@Override
+public abstract class Square extends Geometric {
+	
+  public double area() {
+    return this.side*this.side;
+  }
+}
+
+@Override
+public abstract class Triangle extends Geometric {
+	
+  public double area() {
+    return this.base*this.height/2;
+  }
+}
+\end{lstlisting}
 \end{frame}
 
 %----------------------------------------------------------------------------------------
@@ -164,13 +193,28 @@ T add(T a, T b) { ... }
 \frametitle{Definição}
 \justifying
 \begin{block}{Conceito}
-\qquad O p
+\qquad O polimorfismo de sobrecarga, também conhecido como polimorfismo~\emph{ad-hoc}, permite que o nome do método seja o mesmo para diferentes métodos, diferindo apenas na quantidade de parâmetros e os tipo deles.
 \end{block}
 \end{frame}
 
 %----------------------------------------------------------------------------------------
-\begin{frame}
+\begin{frame}[fragile]
 \frametitle{Exemplo}
 \justifying
+\begin{lstlisting}
+public class MyOwnDB {
+	
+  //It returns all items
+  public List<Item> search() { ... } 
 
+  //It returns all items which are filtered by condition
+  public List<Item> search(String condition) { ... } 
+  
+  //... and ordered by attribute
+  public List<Item> search(String condition, String orderBy) { ... } 
+  
+  //It returns limited number of items which are filtered by condition and ordered by attribute
+  public List<Item> search(String condition, String orderBy) { ... } 
+}
+\end{lstlisting}
 \end{frame}
