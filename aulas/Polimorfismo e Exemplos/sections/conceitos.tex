@@ -1,0 +1,194 @@
+\section{Conceitos}
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\subsection{Definição}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Introdução}
+\justifying
+\quad Neste ponto da Orientação a Objetos, foram introduzidos dois pilares desse paradigma, o Encapsulamento e a Herança, enquanto o primeiro permite a implementação de componentes independentes, o segundo possibilita a reutilização hierárquica desses.
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Polimorfismo}
+\begin{block}{Definição}
+\qquad Ter muitas formas. Em termos de programação, muitas formas significa que um único nome pode representar um código diferente, selecionado por algum elemento automático. Assim, o polimorfismo permite que um único nome expresse muitos comportamentos diferentes~\cite{sintes2002aprenda}.
+\end{block}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Características}
+O polimorfismo atende cada um dos objetivos da orientação a objetos, permitindo a elaboração de softwares com as seguintes características~\cite{sintes2002aprenda}:
+
+\begin{itemize}
+\item Natural\\{\footnotesize O polimorfismo permite que modele o mundo de forma mais natural, trabalhando em nível mais genérico e conceitual.}
+\item Confiável\\{\footnotesize O polimorfismo resulta em código confiável pois simplifica os casos, eliminando situações especiais e isolando o código, assim reduz a chance de introduzir defeitos.}
+\end{itemize}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Características}
+\begin{itemize}
+\item Reutilizável\\{\footnotesize O polimorfismo permite reaproveitar implementadas já realizadas, somente adequando conversa a interface utilizada, sempre precisar conhecer detalhes específicos.}
+\item Manutenível\\{\footnotesize O polimorfismo resulta em menos código, por consequência menos código precisa ser mantido, ou seja, menos trabalho.}
+\end{itemize}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Características}
+\begin{itemize}
+\item Extensível\\{\footnotesize O polimorfismo permite que novos tipos sejam adicionados sem afetar as demais partes do sistema, assim a integração é facilitada}.
+\item Oportuno\\{\footnotesize O polimorfismo permite escrever menos código, e consequentemente, pode distribuí-lo mais cedo.}
+\end{itemize}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+\subsection{Exemplo inicial}
+%fazer exemplo de calculo de área de figuras geometricas
+
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Cálculo de Área}
+\quad Uma aplicação está sendo desenvolvida para o cálculo da áreas, requerindo a necessidade implementação de algumas figuras geométricas. 
+
+\quad Como podemos definir o cálculo da área para essas figuras?
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[fragile]
+\frametitle{Cálculo de Área}
+\justifying
+Um diagrama de classe que projetaria esta aplicação.
+\\~\\
+\begin{center}
+\resizebox{.3\textwidth}{!}{
+\begin{tikzpicture}
+\umlclass[x=0,y=0]{Shape}{...}{
+	+ area(): double
+}
+\end{tikzpicture}
+}
+\end{center}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[fragile]
+\frametitle{Cálculo de Área}
+\centering
+\begin{tikzpicture}[scale=2]
+    \tikzstyle{ann} = [draw=none,fill=none,right]
+    \matrix[nodes={draw, ultra thick, fill=blue!20},
+        row sep=0.3cm,column sep=0.5cm] {
+    \node[rectangle] {$A = b.h$}; &
+    \node[circle] {$A = \pi.r^2$}; & 
+    \node[regular polygon,regular polygon sides=4] {$A = l^2$}; &
+    \node[regular polygon,regular polygon sides=3, scale=.65] {$A = (b.h)/2$}; \\
+};
+\end{tikzpicture}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[fragile]
+\frametitle{Cálculo de Área}
+\justifying
+Um diagrama de classe que projetaria esta aplicação.
+\\~\\
+\begin{center}
+\resizebox{\textwidth}{!}{
+\begin{tikzpicture}
+\umlclass[x=0,y=0]{Shape}{...}{
+	\umlvirt{+ area(): double}
+}
+\umlclass[x=-5.5,y=-3]{Rectangle}{}{
+	+ area(): double
+}
+\umlclass[x=-2,y=-3]{Circle}{}{
+	+ area(): double
+}
+\umlclass[x=2,y=-3]{Square}{}{
+	+ area(): double
+}
+\umlclass[x=5.5,y=-3]{Triangle}{}{
+	+ area(): double
+}
+\umlimpl{Rectangle}{Shape}
+\umlimpl{Circle}{Shape}
+\umlimpl{Square}{Shape}
+\umlimpl{Triangle}{Shape}
+\end{tikzpicture}
+}
+\end{center}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[fragile]
+\frametitle{Cálculo de Área -- Implementação}
+\begin{lstlisting}
+public class Shape {
+  ...
+  public abstract double area();
+}
+
+public class Rectangle extends Shape {
+  
+  private double base;
+  private double height;
+  ...
+  public abstract double area() {
+    return this.base*this.height;
+  }
+}
+\end{lstlisting}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[fragile]
+\frametitle{Cálculo de Área -- Implementação}
+\begin{lstlisting}
+
+
+public class Circle extends Shape {
+  
+  private double radius;
+  ...
+  public abstract double area() {
+    return Math.PI*Math.pow(this.radius, 2);
+  }
+}
+
+public class Square extends Shape {
+  
+  private double side;
+  ...
+\end{lstlisting}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[fragile]
+\frametitle{Cálculo de Área -- Implementação}
+\begin{lstlisting}
+
+  ...
+  public abstract double area() {
+    return Math.pow(this.side, 2);
+  }
+}
+
+public class Triangle extends Shape {
+  
+  private double base;
+  private double height;
+  ...
+  public abstract double area() {
+    return this.base*this.height/2;
+  }
+}
+\end{lstlisting}
+\end{frame}

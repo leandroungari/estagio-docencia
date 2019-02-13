@@ -1,6 +1,12 @@
 \section{Tipos de Polimorfismo}
 
 %----------------------------------------------------------------------------------------
+\begin{frame}
+\centering
+\Huge Tipos de Polimorfismo
+\end{frame}
+
+%----------------------------------------------------------------------------------------
 %----------------------------------------------------------------------------------------
 \subsection*{}
 
@@ -152,11 +158,13 @@ T add(T a, T b) { ... }
 \begin{frame}[fragile]
 \frametitle{Exemplo}
 \justifying
-\quad Uma classe~\textbf{Geometric} é definida, da qual derivam outras duas classes~\textbf{Square} e~\textbf{Triangle}.
+\quad Uma classe~\textbf{Shape} é definida, da qual derivam outras duas classes~\textbf{Square} e~\textbf{Triangle}.
+\\~\\
 \begin{lstlisting}
-public abstract class Geometric {
+public abstract class Shape {
 	
   public abstract double area();
+
 }
 \end{lstlisting}
 \end{frame}
@@ -217,4 +225,26 @@ public class MyOwnDB {
   public List<Item> search(String condition, String orderBy) { ... } 
 }
 \end{lstlisting}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Armadilhas Polimórficas}
+A utilização do polimorfismo permite muitas facilidades, porém a utilização desses recursos de modo desordenado pode incorrer em diversos problemas para a arquitetura do sistema.
+
+\begin{itemize}
+\item Mover comportamentos para cima da hierarquia\\{\footnotesize Mover métodos acima pode dar capacidades a classes em que estas não deveriam ter.}
+
+\end{itemize}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Armadilhas Polimórficas}
+
+\begin{itemize}
+\item Sobrecarga de desempenho\\{\footnotesize A generalização de tipos de parâmetros e retorno de métodos traz perda de desempenho em tempo de execução, em que a verificação de tipos, que era feita estaticamente, será feita dinamicamente, demandando processamento.}
+\item Perda de comportamento\\{\footnotesize Na generalização de tipos específicos, um método ou atributo pertencente a uma subclasse se torna inacessível.}
+\end{itemize}
+
 \end{frame}

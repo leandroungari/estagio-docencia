@@ -59,10 +59,11 @@
 \begin{tikzpicture}
 \umlclass[x=0,y=0]{Purchase}{
 	- value: double\\
-	- closed: boolean
+	- closed: boolean \\
+	- payment: CashPayment
 }{
 	+ finalize(): boolean\\
-	+ setPayment(Purchase p): void\\
+	+ setPayment(CashPayment c): void\\
 	+ getTotal(): double
 }
 \umlclass[x=8,y=0]{CashPayment}{
@@ -82,20 +83,7 @@
 \begin{frame}[fragile]
 \frametitle{Implementação}
 \begin{lstlisting}
-Purchase purchase = new Purchase();
-...
-CashPayment cash = new CashPayment(purchase.getTotal());
-
-purchase.setPayment(cash);
-purchase.finalize();
-\end{lstlisting}
-\end{frame}
-
-%----------------------------------------------------------------------------------------
-\begin{frame}[fragile]
-\frametitle{Implementação}
-\begin{lstlisting}
-class Purchase {
+public class Purchase {
   ...
 
   public boolean finalize() {
@@ -104,8 +92,15 @@ class Purchase {
     this.payment.execute();
   }
 }
+
+Purchase purchase = new Purchase();
+CashPayment cash = new CashPayment(purchase.getTotal());
+
+purchase.setPayment(cash);
+purchase.finalize();
 \end{lstlisting}
 \end{frame}
+
 
 %----------------------------------------------------------------------------------------
 \begin{frame}
@@ -267,6 +262,124 @@ class Purchase {
 
 %----------------------------------------------------------------------------------------
 \begin{frame}
+\frametitle{Representação}
+\centering
+\resizebox{.8\textwidth}{!}{
+\begin{tikzpicture}
+\umlclass[x=0,y=0]{Purchase}{
+	- value: double\\
+	- closed: boolean\\
+	- cashPayment: CashPayment\\
+	- cardPayment: CardPayment\\
+	- payPalPayment: PayPalPayment
+}{
+	+ finalizeCash(): boolean\\
+	+ finalizeCard(): boolean\\
+	+ finalizePayPal(): boolean\\
+	+ setCashPayment(CashPayment c): void\\
+	+ setCardPayment(CardPayment c): void\\
+	+ setPayPalPayment(PayPalPayment p): void\\
+	+ getTotal(): double
+}
+\umlclass[x=8,y=-3.5]{CashPayment}{
+	- value: double\\
+	- isApproved: boolean
+}{
+	+ execute() : void\\
+	+ isApproved() : boolean
+}
+\umlclass[x=8,y=0]{CardPayment}{
+	- value: double\\
+	- isApproved: boolean
+}{
+	+ execute() : void\\
+	+ isApproved() : boolean
+}
+\umlclass[x=8,y=3.5]{PayPalPayment}{
+	- value: double\\
+	- isApproved: boolean
+}{
+	+ execute() : void\\
+	+ isApproved() : boolean
+}
+\umlunicompo[geometry=-|-,mult1=1,mult2=1,pos1=0.2,pos2=2.8]
+{Purchase}{CashPayment}
+\umlunicompo[geometry=-|-,mult1=1,mult2=1,pos1=0.2,pos2=2.8]
+{Purchase}{CardPayment}
+\umlunicompo[geometry=-|-,mult1=1,mult2=1,pos1=0.2,pos2=2.8]
+{Purchase}{PayPalPayment}
+\end{tikzpicture}
+}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[fragile]
+\frametitle{Implementação}
+\begin{lstlisting}
+public class Purchase {
+  ...
+
+  public boolean finalize() {
+    ...
+    //type CashPayment
+    this.cashPayment.execute();
+  }
+}
+
+Purchase purchase = new Purchase();
+CashPayment cash = new CashPayment(purchase.getTotal());
+
+purchase.setCashPayment(cash);
+purchase.finalizeCash();
+\end{lstlisting}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[fragile]
+\frametitle{Implementação}
+\begin{lstlisting}
+public class Purchase {
+  ...
+
+  public boolean finalize() {
+    ...
+    //type CardPayment
+    this.cardPayment.execute();
+  }
+}
+
+Purchase purchase = new Purchase();
+CardPayment card = new CardPayment(purchase.getTotal());
+
+purchase.setCardPayment(card);
+purchase.finalizeCard();
+\end{lstlisting}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[fragile]
+\frametitle{Implementação}
+\begin{lstlisting}
+public class Purchase {
+  ...
+
+  public boolean finalize() {
+    ...
+    //type PayPalPayment
+    this.payPalPayment.execute();
+  }
+}
+
+Purchase purchase = new Purchase();
+PayPalPayment payPal = new PayPalPayment(purchase.getTotal());
+
+purchase.setPayPalPayment(payPal);
+purchase.finalize();
+\end{lstlisting}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}
 \frametitle{Opção II}
 \centering
 \begin{tikzpicture}
@@ -313,4 +426,73 @@ class Purchase {
 	(cash2.north east) -- (check0.south west)
     node[midway,fill=white] {Aprovação};
 \end{tikzpicture}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Representação}
+\resizebox{\textwidth}{!}{
+\begin{tikzpicture}
+\umlclass[x=0,y=0]{Purchase}{
+	- value: double\\
+	- closed: boolean \\
+	- payment: Payment
+}{
+	+ finalize(): boolean\\
+	+ setPayment(Payment c): void\\
+	+ getTotal(): double
+}
+\umlclass[x=8,y=0]{Payment}{
+	\# value: double\\
+	\# isApproved: boolean
+}{
+	\umlvirt{+ execute(): void}\\
+	\umlvirt{+ isApproved(): boolean}
+}
+\umlclass[x=3,y=-4]{CashPayment}{
+}{
+	+ execute() : void\\
+	+ isApproved() : boolean
+}
+\umlclass[x=8,y=-4]{CardPayment}{
+}{
+	+ execute() : void\\
+	+ isApproved() : boolean
+}
+\umlclass[x=13,y=-4]{PayPalPayment}{
+}{
+	+ execute() : void\\
+	+ isApproved() : boolean
+}
+
+\umlunicompo[geometry=-|-,mult1=1,mult2=1,pos1=0.2,pos2=2.8]
+{Purchase}{Payment}
+\umlimpl{CashPayment}{Payment}
+\umlimpl{CardPayment}{Payment}
+\umlimpl{PayPalPayment}{Payment}
+\end{tikzpicture}
+}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\begin{frame}[fragile]
+\frametitle{Implementação}
+\begin{lstlisting}
+public class Purchase {
+
+  public boolean finalize() {
+    ...
+    //type Payment
+    this.payment.execute();
+  }
+}
+
+Purchase purchase = new Purchase();
+Payment payment = new CardPayment(purchase.getTotal());
+                //new CashPayment
+                //new PayPalPayment
+
+purchase.setPayment(payment);
+purchase.finalize();
+\end{lstlisting}
 \end{frame}
